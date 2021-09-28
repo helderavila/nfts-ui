@@ -12,6 +12,7 @@ const TOTAL_MINT_COUNT = 50;
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
+  const [isMinting, setIsMinting] = useState(false)
 
   // Render
   const checkIfWalletIsConnected = async () => {
@@ -67,6 +68,7 @@ const App = () => {
 
   const askContractToMintNft = async () => {
     const CONTRACT_ADDRESS = "0x030d6e7bA8A3ee477330471cCc6F9847bc1047A4";
+    setIsMinting(true)
       try {
         const { ethereum } = window;
   
@@ -82,12 +84,13 @@ const App = () => {
           await nftTxn.wait();
           
           console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
-  
+          setIsMinting(false)
         } else {
           console.log("Ethereum object doesn't exist!");
         }
       } catch (error) {
         console.log(error)
+        setIsMinting(false)
       }
   }
   
@@ -104,8 +107,8 @@ const App = () => {
   * We want the "Connect to Wallet" button to dissapear if they've already connected their wallet!
   */
   const renderMintUI = () => (
-    <button onClick={askContractToMintNft} className="cta-button connect-wallet-button">
-      Mint NFT
+    <button disabled={isMinting} onClick={askContractToMintNft} className="cta-button connect-wallet-button">
+      {isMinting ? 'Minting...' : 'Mint NFT'}
     </button>
   )
 
@@ -125,12 +128,18 @@ const App = () => {
         </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
+          <p
+            className="footer-text"
+          >
+            built on
           <a
             className="footer-text"
             href={TWITTER_LINK}
             target="_blank"
             rel="noreferrer"
-          >{`built on @${TWITTER_HANDLE}`}</a>
+            > {`@${TWITTER_HANDLE}`} </a>
+            by helder
+            </p>
         </div>
       </div>
     </div>

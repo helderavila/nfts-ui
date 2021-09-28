@@ -51,6 +51,11 @@
   color: white;
 }
 
+.cta-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .connect-wallet-button {
   background: -webkit-linear-gradient(left, #C33764, #1D2671);
   background-size: 200% 200%;
